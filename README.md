@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 ## README
 
 This repository contains the full reproducible workflow for the
