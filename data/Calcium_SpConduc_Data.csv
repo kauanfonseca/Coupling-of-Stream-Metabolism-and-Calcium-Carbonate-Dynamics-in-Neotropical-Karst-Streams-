@@ -1,0 +1,23 @@
+stream,sampling_date,travertine_status,reach_section,specific_conductivity_uS_cm,calcium_concentration_mg_L
+RA,2023-08-04,Active ,Upstream,NA,80.5
+RT,2023-08-03,Non-active,Upstream,NA,50.9
+RC,2023-08-10,Active ,Upstream,369,47.7
+CB,2023-08-31,Non-active,Upstream,NA,42
+CD,2023-09-11,Active ,Upstream,NA,69.7
+SR,2023-10-11,Active ,Upstream,421.91,50
+RC,2023-10-07,Active ,Upstream,NA,43.1
+CD,2023-10-09,Active ,Upstream,416.7,65.8
+CC,2023-10-06,Non-active,Upstream,337.1,44.6
+RA,2023-10-05,Active ,Upstream,464.4,69.6
+RA,2023-08-04,Active ,Downstream,462,80.1
+RT,2023-08-03,Non-active,Downstream,344,46
+CC,2023-08-02,Non-active,Downstream,333,46.8
+RC,2023-08-10,Active ,Downstream,367,48.1
+CB,2023-08-31,Non-active,Downstream,326,42.4
+CD,2023-09-11,Active ,Downstream,399.08,64.1
+SR,2023-10-11,Active ,Downstream,NA,39.6
+RC,2023-10-07,Active ,Downstream,328.08,43.5
+CB,2023-10-08,Non-active,Downstream,344.64,42.7
+CD,2023-10-09,Active ,Downstream,390.76,66.6
+CC,2023-10-06,Non-active,Downstream,336.5,45
+RA,2023-10-05,Active ,Downstream,430.98,69.3
