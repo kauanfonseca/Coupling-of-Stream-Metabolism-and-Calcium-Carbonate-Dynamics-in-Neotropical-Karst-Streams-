@@ -1,0 +1,69 @@
+# ==============================================================================
+# Script: Metabolism Data Preparation - Coupling of Stream Metabolism and Calcium Carbonate Dynamics
+# Description: Prepares high-frequency data for stream metabolism analyses,
+#              formats and saves data per stream, and runs metabolism models into a single output folder.
+# ==============================================================================
+
+# ---- Load Required Libraries ----
+library(dplyr)
+library(lubridate)
+library(R2jags)
+library(BASEmetab)
+library(ggplot2)
+
+# ---- Load High-Frequency Data ----
+HighFrequencyData <- read.csv("./data/HighFrequencyData.csv")
+
+# ---- Parse Datetime Column ----
+HighFrequencyData$sampling_datetime <- as.POSIXct(
+  HighFrequencyData$sampling_datetime, format = "%Y%m%d %H:%M:%S"
+)
+
+# ---- Set Output Paths ----
+output_data_dir <- file.path(getwd(), "incremental", "Metabolism_Modelling", "BASE_input_coded")
+results_dir <- file.path(getwd(), "incremental", "Metabolism_Modelling", "BASEmetab_output")
+
+# Create folders if they don’t exist
+dir.create(output_data_dir, recursive = TRUE, showWarnings = FALSE)
+dir.create(results_dir, recursive = TRUE, showWarnings = FALSE)
+
+# ---- Split, Prepare, Save, and Run Models per Stream ----
+streams <- HighFrequencyData %>%
+  distinct(stream_name, stream_abreviation)
+
+for (i in 1:nrow(streams)) {
+  
+  stream_data <- HighFrequencyData %>%
+    filter(stream_name == streams$stream_name[i]) %>%
+    mutate(
+      Date = as.Date(sampling_datetime),
+      Time = format(sampling_datetime, "%H:%M:%S"),
+      I = par_umol_m2_s,
+      tempC = temp_c,
+      DO.meas = dissolved_oxygen_mgL,
+      atmo.pressure = 1,
+      salinity = 0
+    ) %>%
+    select(Date, Time, I, tempC, DO.meas, atmo.pressure, salinity)
+  
+  # ---- Save Prepared Data File ----
+  file_name <- paste0("BASE_input_", streams$stream_abreviation[i], ".csv")
+  write.csv(stream_data, file.path(output_data_dir, file_name), row.names = FALSE)
+  
+  # ---- Prepare Temporary Input Folder for BASEmetab ----
+  temp_input_dir <- file.path(tempdir(), paste0("metab_run_", streams$stream_abreviation[i]))
+  dir.create(temp_input_dir, showWarnings = FALSE, recursive = TRUE)
+  file.copy(from = file.path(output_data_dir, file_name),
+            to = file.path(temp_input_dir, "BASE_input.csv"),
+            overwrite = TRUE)
+  
+  # ---- Run BASEmetab Model ----
+  message("Running bayesmetab model for stream: ", streams$stream_abreviation[i])
+  tryCatch({
+    bayesmetab(data.dir = temp_input_dir, results.dir = results_dir, interval = 600)
+  }, error = function(e) {
+    message("Model failed for stream ", streams$stream_abreviation[i], ": ", e$message)
+  })
+}
+
+# ---- End of Script ----

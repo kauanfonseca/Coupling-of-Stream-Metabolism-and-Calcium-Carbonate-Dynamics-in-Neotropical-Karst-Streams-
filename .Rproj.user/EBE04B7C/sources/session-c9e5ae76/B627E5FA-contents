@@ -1,0 +1,26 @@
+# ==============================================================================
+# Script: Run Stream Metabolism Models - Coupling of Stream Metabolism and Calcium Carbonate Dynamics
+# Description: Runs metabolism models for each stream using BASEmetab.
+# ==============================================================================
+
+# ---- Load Required Libraries ----
+library(dplyr)
+library(lubridate)
+library(R2jags)
+library(BASEmetab)
+
+# ---- Set Input and Output Directories ----
+input_dir <- "./incremental/BASE_input_modified"  # Folder containing model input file (must have 'BASE_input.csv')
+output_dir <- file.path(getwd(), "incremental", "BASEmeta_output")  # Folder to save model outputs
+
+# ---- Create Output Directory If Needed ----
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+# ---- Run Metabolism Model ----
+message("Running BASEmetab model...")
+Metab_results <- bayesmetab(data.dir = input_dir, results.dir = output_dir, interval = 600)
+message("Model completed. Results saved to: ", output_dir)
+
+# ---- End of Script ----

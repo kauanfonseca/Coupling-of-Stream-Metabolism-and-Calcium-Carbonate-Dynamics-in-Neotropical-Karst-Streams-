@@ -1,0 +1,9 @@
+# ---- Load or Install Required Packages ----
+required_packages <- c("dplyr", "lubridate", "R2jags", "BASEmetab", "ggplot2", "readr", "tidyr")
+
+for (pkg in required_packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+  library(pkg, character.only = TRUE)
+}

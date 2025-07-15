@@ -1,0 +1,27 @@
+# install devtools package
+install.packages(c("devtools"))
+
+# install BASEmetab package
+devtools::install_github("dgiling/BASEmetab")
+
+# Remove the package zip after installation
+unlink("BASEmetab.zip")
+
+##Link to JAGS
+library(R2jags)
+library(BASEmetab)
+
+##View example data set.
+#set path to example. #Set a directory to import the data where contain my data frame
+
+data.dir <- "./data/BASE_input" 
+
+#set output directory to Output folder in current working directory.
+results.dir <- file.path(getwd(), "./results/BASEmeta_output")
+
+if (dir.exists(results.dir)){} else {
+  dir.create(results.dir)}
+
+#run model.
+results <- bayesmetab(data.dir, results.dir, interval = 600)
+
