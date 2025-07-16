@@ -1,3 +1,0 @@
-
-ggsave('figs/Figure3a_Calcite_SaturationIndex.tiff', width = 8, height = 6, dpi = 300,
-       plot = Sic_plot)
