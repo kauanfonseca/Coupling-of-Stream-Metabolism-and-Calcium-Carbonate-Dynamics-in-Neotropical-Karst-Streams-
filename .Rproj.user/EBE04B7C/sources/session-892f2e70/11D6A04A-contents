@@ -1,0 +1,196 @@
+#---- Load Required Libraries ----
+library(dplyr)
+library(lubridate)
+library(readr)
+library(writexl)
+
+#---- Load All Datasets ----
+CD_110923 <- read.csv("./data/travertine_curves/checked/CD_Travertine_110923_checked.csv")
+CD_111023 <- read.csv("./data/travertine_curves/checked/Cd_Travertine_111023_checked.csv")
+RA_df     <- read.csv("./data/travertine_curves/checked/RA_Travertine_checked.csv")
+RC_df     <- read.csv("./data/travertine_curves/checked/RC_Travertine_checked.csv")
+SR_df     <- read.csv("./data/travertine_curves/checked/SR_Travertine_checked.csv", sep = ";")
+
+#---- Define Standardized Column Names ----
+column_mapping <- c(
+  "sampling_datetime", "temp_c", "do_mgL", "spc_uS_cm", "depth_m", "discharge_Ls", "velocity_ms",
+  "calcium_mgL", "calcium_mg_m2", "calcium_g_m2", "phase", "time_period", "reaction", "diff_s", "diff_h"
+)
+
+#---- Cleaning Function ----
+clean_travertine_data <- function(df, stream_name, datetime_col) {
+  df <- df %>%
+    mutate(
+      calcium_g_m2 = Calcium_mg_m2 / 1000,
+      diff_h = diff_s / 3600,
+      sampling_datetime = dmy_hm(!!sym(datetime_col), tz = "America/Sao_Paulo")
+    ) %>%
+    select(any_of(c(
+      "sampling_datetime", 
+      grep("Temp_C", names(df), value = TRUE),
+      grep("DO_mgL_adj", names(df), value = TRUE),
+      grep("SpC_uScm", names(df), value = TRUE),
+      "depth_m", "discharge_Ls", "vel_ms", "Calcium_mgL", 
+      "Calcium_mg_m2", "calcium_g_m2", 
+      "Phase", "Time", "Reaction", "diff_s", "diff_h"
+    ))) %>%
+    rename_with(~ column_mapping[seq_along(.)]) %>%
+    mutate(
+      stream = stream_name,
+      sampling_date = as.Date(sampling_datetime)
+    )
+  return(df)
+}
+
+#---- Clean All DataFrames ----
+CD_110923_clean <- clean_travertine_data(CD_110923, "CD", "Date_Time")
+CD_111023_clean <- clean_travertine_data(CD_111023, "CD", "Date_time")
+RA_clean        <- clean_travertine_data(RA_df, "RA", "Date_time")
+RC_clean        <- clean_travertine_data(RC_df, "RC", "Date_Time")
+SR_clean        <- clean_travertine_data(SR_df, "SR", "Date_Time")
+
+#---- Combine All DataFrames ----
+all_streams_df <- bind_rows(CD_110923_clean, CD_111023_clean, RA_clean, RC_clean, SR_clean)
+
+#---- Linear Regression Function ----
+create_linear_models <- function(df) {
+  model_results <- data.frame()
+  combos <- with(df, unique(interaction(reaction, sampling_date, stream, drop = TRUE)))
+  for (combo in combos) {
+    subset_df <- subset(df, interaction(reaction, sampling_date, stream, drop = TRUE) == combo)
+    if (length(unique(subset_df$diff_h)) > 1) {
+      lm_model <- lm(calcium_g_m2 ~ diff_h, data = subset_df)
+      model_summary <- summary(lm_model)
+      coefficients <- coef(lm_model)
+      std_errors <- coef(model_summary)[, "Std. Error"]
+      p_value <- coef(model_summary)[, "Pr(>|t|)"][2]
+      model_result <- data.frame(
+        reaction = unique(subset_df$reaction),
+        sampling_date = unique(subset_df$sampling_date),
+        stream = unique(subset_df$stream),
+        slope = coefficients[2],
+        intercept = coefficients[1],
+        slope_std_error = std_errors[2],
+        intercept_std_error = std_errors[1],
+        r_squared = model_summary$r.squared,
+        f_statistic = model_summary$fstatistic[1],
+        p_value = p_value,
+        residual_std_error = model_summary$sigma,
+        adjusted_r_squared = model_summary$adj.r.squared
+      )
+      model_results <- bind_rows(model_results, model_result)
+    }
+  }
+  return(model_results)
+}
+
+#---- Create EML-Style Metadata (Rows = Metadata Fields, Columns = Variables) ----
+metadata <- data.frame(
+  row.names = c(
+    "Units", "Description", "Property", "Entity", "Method",
+    "EMLClass", "EMLUnits", "EMLTimeFormat", "EMLMissingCode", "EMLMissingExp"
+  ),
+  sampling_datetime = c(
+    "Gregorian date POSIX (ISO 8601-1:2019)",
+    "Sampling date and time in Brasília time zone",
+    "DateTime", "Sampling event", "In situ measurement",
+    "datetime", "DateTime", "%Y-%m-%d %H:%M:%S", NA, NA
+  ),
+  temp_c = c(
+    "Degrees Celsius", "Water temperature",
+    "Temperature", "Water chemistry", "In situ measurement",
+    "physical", "Celsius", NA, NA, NA
+  ),
+  do_mgL = c(
+    "Milligrams per liter", "Dissolved oxygen concentration (adjusted)",
+    "Dissolved oxygen", "Water chemistry", "In situ measurement",
+    "physical", "milligramPerLiter", NA, NA, NA
+  ),
+  spc_uS_cm = c(
+    "Microsiemens per centimeter", "Specific electrical conductivity",
+    "Conductivity", "Water chemistry", "In situ measurement",
+    "physical", "microsiemensPerCentimeter", NA, NA, NA
+  ),
+  depth_m = c(
+    "Meters", "Water depth at sampling site",
+    "Depth", "Hydrology", "Field measurement",
+    "physical", "meter", NA, NA, NA
+  ),
+  discharge_Ls = c(
+    "Liters per second", "Discharge rate of the stream",
+    "Discharge", "Hydrology", "Discharge measurement",
+    "physical", "literPerSecond", NA, NA, NA
+  ),
+  velocity_ms = c(
+    "Meters per second", "Water velocity at sampling site",
+    "Velocity", "Hydrology", "Flow measurement",
+    "physical", "meterPerSecond", NA, NA, NA
+  ),
+  calcium_mgL = c(
+    "Milligrams per liter", "Calcium concentration in water",
+    "Calcium concentration", "Water chemistry", "Lab analysis",
+    "chemical", "milligramPerLiter", NA, NA, NA
+  ),
+  calcium_mg_m2 = c(
+    "Milligrams per square meter", "Calcium mass per area (mg/m²)",
+    "Calcium standing stock", "Water chemistry", "Lab calculation",
+    "chemical", "milligramPerSquareMeter", NA, NA, NA
+  ),
+  calcium_g_m2 = c(
+    "Grams per square meter", "Calcium mass per area (g/m²)",
+    "Calcium standing stock", "Water chemistry", "Lab calculation",
+    "chemical", "gramPerSquareMeter", NA, NA, NA
+  ),
+  phase = c(
+    "Categorical", "Stream metabolic phase",
+    "Metabolic phase", "Experimental context", "Defined per protocol",
+    "categorical", NA, NA, NA, NA
+  ),
+  time_period = c(
+    "Time (HH:MM:SS)", "Time of sampling",
+    "Time of day", "Experimental context", "Derived from datetime",
+    "categorical", NA, NA, NA, NA
+  ),
+  reaction = c(
+    "Categorical", "Reaction type",
+    "Reaction type", "Experimental context", "Defined per experiment",
+    "categorical", NA, NA, NA, NA
+  ),
+  diff_s = c(
+    "Seconds", "Elapsed time (s)",
+    "Time difference", "Experimental context", "Recorded in experiment",
+    "numeric", "second", NA, NA, NA
+  ),
+  diff_h = c(
+    "Hours", "Elapsed time (h)",
+    "Time difference", "Experimental context", "Calculated from seconds",
+    "numeric", "hour", NA, NA, NA
+  ),
+  stream = c(
+    "Categorical", "Stream code",
+    "Stream code", "Sampling site", "Assigned label",
+    "categorical", NA, NA, NA, NA
+  ),
+  sampling_date = c(
+    "Gregorian date (YYYY-MM-DD)", "Sampling date extracted from datetime",
+    "Date", "Sampling event", "Derived from datetime",
+    "datetime", "DateTime", "%Y-%m-%d", NA, NA
+  )
+)
+
+#---- Apply Linear Models ----
+model_results <- create_linear_models(all_streams_df)
+write_xlsx(list(
+  "Regression_Results" = model_results), path = "./results/TravertineRates.xlsx")
+
+#---- Export Data & Metadata ----
+all_streams_df <- all_streams_df %>%
+  mutate(sampling_datetime = with_tz(sampling_datetime, "America/Sao_Paulo")) %>%
+  mutate(sampling_datetime = format(sampling_datetime, "%Y-%m-%d %H:%M:%S"))
+write_xlsx(list(
+  "Clean_Data" = all_streams_df,
+  "Regression_Results" = model_results,
+  "Metadata" = metadata
+), path = "./data/Processed_Travertine_Streams_Final_3.xlsx")
+
+cat("✅ Data, regression models, and metadata saved successfully to 'Processed_Travertine_Streams_Final.xlsx'\n")

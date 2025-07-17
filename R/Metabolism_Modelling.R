@@ -23,7 +23,7 @@ HighFrequencyData$sampling_datetime <- as.POSIXct(
 
 # ---- Set Output Paths ----
 output_data_dir <- file.path(getwd(), "incremental", "Metabolism_Modelling", "BASEmetab_input")
-results_base_dir <- file.path(getwd(), "incremental", "Metabolism_Modelling", "BASEmetab_output")
+results_base_dir <- file.path(getwd(), "results", "BASEmetab_output")
 
 # Create folders if they don’t exist
 dir.create(output_data_dir, recursive = TRUE, showWarnings = FALSE)

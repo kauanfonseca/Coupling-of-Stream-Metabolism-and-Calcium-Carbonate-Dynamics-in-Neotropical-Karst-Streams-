@@ -1,0 +1,135 @@
+#---- Load Required Libraries ----
+library(dplyr)
+library(lubridate)
+library(readr)
+library(writexl)
+
+#---- Load Dataset ----
+
+Ca_streams <-read.csv("./data/Ca_mass_transfer_reaction_modif.csv", sep = ",", header = T)
+df <-read.csv("./data/Ca_mass_transfer_reaction.csv", sep = ",", header = T)
+Q_streams <-read.csv("./data/Stream_Mean_channel_features.csv", sep = ";", header = T)
+
+Precip.df <- Ca_streams %>% 
+  mutate(Precip_rate_mgCa_m2_s = ((Ca_mass_trans_mgL * 1000) * Depth_m) / (Reaction_time_min))
+
+#---- Clean and Standardize Date ----
+Precip.df <- Precip.df %>%
+  mutate(
+    sampling_date = format(dmy(Sampling_Date, tz = "America/Sao_Paulo"), "%Y-%m-%d")
+  ) %>%
+  select(-Sampling_Date)  # Drop original column if not needed
+
+#---- Rename Columns to Clean Repository-Friendly Names ----
+Precip.df_clean <- Precip.df %>%
+  rename(
+    site                         = Site,
+    travertine                   = Travertine,
+    hour                         = Hour,
+    spc_upstream_uS_cm           = SPC_Upstream,
+    spc_downstream_uS_cm         = SPC_Downstream,
+    ca_upstream_mgL              = Ca_Upstream,
+    ca_downstream_mgL            = Ca_Downstream,
+    ca_mass_transfer_mgL         = Ca_mass_trans_mgL,
+    reach_length_m               = Reach_length_m,
+    water_velocity_m_s           = Water_Veloc_m_s,
+    discharge_L_s                = Discharge_L_s,
+    width_m                      = Width_m,
+    depth_m                      = Depth_m,
+    reach_area_m2                = Reach_Area_m2,
+    reaction_time_min            = Reaction_time_min,
+    precipitation_rate_mgCa_m2_s = Precip_rate_mgCa_m2_s
+  ) %>%
+  relocate(sampling_date, .after = site)
+
+#---- Export Clean Data ----
+write_xlsx(Precip.df_clean, "./data/Precipitation_Travertine_Clean.xlsx")
+
+#---- Create Metadata (Fields in Rows, Variables in Columns) ----
+precip_metadata <- data.frame(
+  Field = c(
+    "Units", "Description", "Property", "Entity", "Method",
+    "EMLClass", "EMLUnits", "EMLTimeFormat", "EMLMissingCode", "EMLMissingExplanation"
+  ),
+  sampling_date = c(
+    "YYYY-MM-DD", "Sampling date in standardized format", "Date", "Precipitation Experiment",
+    "Field measurement date (day-month-year converted)", "datetime", "dateTime", "YYYY-MM-DD", NA, NA
+  ),
+  site = c(
+    "Text", "Site name where the measurement was conducted", "Site Identifier",
+    "Precipitation Experiment", "Field site code", "string", "string", NA, NA, NA
+  ),
+  travertine = c(
+    "Text", "Travertine presence or category", "Geological Status",
+    "Precipitation Experiment", "Observed or classified in field", "string", "string", NA, NA, NA
+  ),
+  hour = c(
+    "Time (HH:MM)", "Time of sampling in hours", "Time of Day",
+    "Precipitation Experiment", "Field measurement", "time", "time", NA, NA, NA
+  ),
+  spc_upstream_uS_cm = c(
+    "Microsiemens per centimeter", "Specific conductivity upstream", "Water Conductivity",
+    "Precipitation Experiment", "Field probe measurement", "numeric", "microsiemensPerCentimeter", NA, NA, NA
+  ),
+  spc_downstream_uS_cm = c(
+    "Microsiemens per centimeter", "Specific conductivity downstream", "Water Conductivity",
+    "Precipitation Experiment", "Field probe measurement", "numeric", "microsiemensPerCentimeter", NA, NA, NA
+  ),
+  ca_upstream_mgL = c(
+    "Milligrams per liter", "Calcium concentration upstream", "Calcium Concentration",
+    "Precipitation Experiment", "Water sample chemical analysis", "numeric", "milligramPerLiter", NA, NA, NA
+  ),
+  ca_downstream_mgL = c(
+    "Milligrams per liter", "Calcium concentration downstream", "Calcium Concentration",
+    "Precipitation Experiment", "Water sample chemical analysis", "numeric", "milligramPerLiter", NA, NA, NA
+  ),
+  ca_mass_transfer_mgL = c(
+    "Milligrams per liter", "Calcium mass transfer (difference)", "Calcium Flux",
+    "Precipitation Experiment", "Difference between upstream and downstream", "numeric", "milligramPerLiter", NA, NA, NA
+  ),
+  reach_length_m = c(
+    "Meters", "Length of the reach measured", "Reach Length",
+    "Precipitation Experiment", "Measured with tape or GPS", "numeric", "meter", NA, NA, NA
+  ),
+  water_velocity_m_s = c(
+    "Meters per second", "Water velocity within the reach", "Water Velocity",
+    "Precipitation Experiment", "Flow meter measurement", "numeric", "meterPerSecond", NA, NA, NA
+  ),
+  discharge_L_s = c(
+    "Liters per second", "Water discharge within the reach", "Water Discharge",
+    "Precipitation Experiment", "Calculated from cross-section and velocity", "numeric", "literPerSecond", NA, NA, NA
+  ),
+  width_m = c(
+    "Meters", "Average width of the reach", "Reach Width",
+    "Precipitation Experiment", "Measured manually", "numeric", "meter", NA, NA, NA
+  ),
+  depth_m = c(
+    "Meters", "Average depth of the reach", "Reach Depth",
+    "Precipitation Experiment", "Measured manually or by probe", "numeric", "meter", NA, NA, NA
+  ),
+  reach_area_m2 = c(
+    "Square meters", "Area of the reach", "Reach Area",
+    "Precipitation Experiment", "Calculated as width x length", "numeric", "squareMeter", NA, NA, NA
+  ),
+  reaction_time_min = c(
+    "Minutes", "Residence time of water within the reach", "Water Residence Time",
+    "Precipitation Experiment", "Computed as reach length / velocity", "numeric", "minute", NA, NA, NA
+  ),
+  precipitation_rate_mgCa_m2_s = c(
+    "Milligrams of calcium per square meter per second", "Rate of precipitation of calcium carbonate on the reach",
+    "Calcium Precipitation Rate", "Precipitation Experiment",
+    "Calculated from calcium flux and residence time", "numeric", "milligramPerSquareMeterPerSecond", NA, NA, NA
+  ),
+  stringsAsFactors = FALSE
+)
+
+#---- Export Metadata ----
+write_xlsx(precip_metadata, "./data/Precipitation_Travertine_Metadata.xlsx")
+
+#---- Export Combined File ----
+write_xlsx(list(
+  "Clean_Data" = Precip.df_clean,
+  "Metadata" = precip_metadata
+), "./data/Precipitation_Travertine_Complete.xlsx")
+
+cat("✅ Dataset cleaned and metadata saved with fields in rows and variables in columns.\n")
