@@ -1,5 +1,5 @@
 # ==============================================================================
-# Script: Hydraulic Models - Coupling of Stream Metabolism and Calcium Carbonate Dynamics
+# Script: Hydraulic variables 
 # Description: Linear mixed-effects models for hydraulic variables + diagnostics
 # ==============================================================================
 

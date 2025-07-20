@@ -1,6 +1,5 @@
 # ==============================================================================
 # Script: Metabolism Data Preparation and Model Execution
-# Coupling of Stream Metabolism and Calcium Carbonate Dynamics
 # Description: 
 #   1. Creates formatted input data per stream
 #   2. Runs metabolism models and saves outputs in stream-specific folders

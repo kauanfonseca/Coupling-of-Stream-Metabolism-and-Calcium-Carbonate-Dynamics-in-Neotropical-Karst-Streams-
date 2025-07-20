@@ -1,13 +1,13 @@
 {
     "sortOrder": [
         {
-            "columnIndex": 3,
-            "ascending": false
+            "columnIndex": 2,
+            "ascending": true
         },
         {
-            "columnIndex": 2,
+            "columnIndex": 3,
             "ascending": false
         }
     ],
-    "path": "~/Library/CloudStorage/OneDrive-Personal/UNL Desktop/Área de Trabalho/Kauan/Kauan/Doutorado/First chapter/Submisison/Coupling of Stream Metabolism and Calcium Carbonate Dynamics in Neotropical Karst Streams /figs"
+    "path": "~/Library/CloudStorage/OneDrive-Personal/UNL Desktop/Área de Trabalho/Kauan/Kauan/Doutorado/First chapter/Submisison/Coupling of Stream Metabolism and Calcium Carbonate Dynamics in Neotropical Karst Streams /R"
 }

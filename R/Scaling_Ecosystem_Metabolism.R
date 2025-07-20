@@ -1,6 +1,5 @@
 # ===============================
 # Stream Metabolism Scaling Plots
-# Author: Kauan Fonseca
 # Description: Visualizes the relationship between GPP and ER
 #              for streams with active and non-active travertine deposition
 # ===============================
