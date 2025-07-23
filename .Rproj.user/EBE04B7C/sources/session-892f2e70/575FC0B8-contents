@@ -1,0 +1,134 @@
+# ---- Load Required Libraries ----
+library(dplyr)
+
+# ---- Read and Parse Data ----
+df <- read.csv("./data/Ca_Stock_Variation_LinearSegments.csv", sep = ",", header = TRUE)
+df$sampling_datetime <- as.POSIXct(df$sampling_datetime, format = "%Y-%m-%d %H:%M:%S")
+df$date <- as.Date(df$sampling_datetime)  # Extract date only
+
+# ---- Clean Function ----
+create_linear_models <- function(df) {
+  model_results <- list()
+  skipped <- list()
+  
+  combinations <- df %>%
+    filter(!is.na(calcium_g_m2), !is.na(diff_h)) %>%
+    distinct(stream, daytime, date)
+  
+  for (i in seq_len(nrow(combinations))) {
+    group_df <- df %>%
+      filter(
+        stream == combinations$stream[i],
+        daytime == combinations$daytime[i],
+        date == combinations$date[i]
+      ) %>%
+      filter(!is.na(calcium_g_m2), !is.na(diff_h))
+    
+    # Skip if not enough variation
+    if (nrow(group_df) >= 3 && length(unique(group_df$diff_h)) > 1) {
+      model <- lm(calcium_g_m2 ~ diff_h, data = group_df)
+      summary_model <- summary(model)
+      coef_table <- coef(summary_model)
+      
+      model_results[[length(model_results) + 1]] <- data.frame(
+        Stream = combinations$stream[i],
+        Daytime = combinations$daytime[i],
+        Date = combinations$date[i],
+        Slope = coef_table["diff_h", "Estimate"],
+        Intercept = coef_table["(Intercept)", "Estimate"],
+        Slope_Std_Error = coef_table["diff_h", "Std. Error"],
+        Intercept_Std_Error = coef_table["(Intercept)", "Std. Error"],
+        R_Squared = summary_model$r.squared,
+        Adjusted_R_Squared = summary_model$adj.r.squared,
+        F_Statistic = summary_model$fstatistic[1],
+        P_Value = coef_table["diff_h", "Pr(>|t|)"],
+        Residual_Std_Error = summary_model$sigma
+      )
+    } else {
+      skipped[[length(skipped) + 1]] <- combinations[i, ]
+    }
+  }
+  
+  result_df <- bind_rows(model_results)
+  skipped_df <- bind_rows(skipped)
+  
+  list(models = result_df, skipped = skipped_df)
+}
+
+# ---- Run the Function ----
+output <- create_linear_models(df)
+# ---- Load Required Libraries ----
+library(dplyr)
+
+# ---- Read and Parse Data ----
+df <- read.csv("./data/Ca_Stock_Variation_LinearSegments.csv", sep = ",", header = TRUE)
+df$sampling_datetime <- as.POSIXct(df$sampling_datetime, format = "%Y-%m-%d %H:%M:%S")
+df$date <- as.Date(df$sampling_datetime)  # Extract date only
+
+# ---- Clean Function ----
+create_linear_models <- function(df) {
+  model_results <- list()
+  skipped <- list()
+  
+  combinations <- df %>%
+    filter(!is.na(calcium_g_m2), !is.na(diff_h)) %>%
+    distinct(stream, daytime, date)
+  
+  for (i in seq_len(nrow(combinations))) {
+    group_df <- df %>%
+      filter(
+        stream == combinations$stream[i],
+        daytime == combinations$daytime[i],
+        date == combinations$date[i]
+      ) %>%
+      filter(!is.na(calcium_g_m2), !is.na(diff_h))
+    
+    # Skip if not enough variation
+    if (nrow(group_df) >= 3 && length(unique(group_df$diff_h)) > 1) {
+      model <- lm(calcium_g_m2 ~ diff_h, data = group_df)
+      summary_model <- summary(model)
+      coef_table <- coef(summary_model)
+      
+      model_results[[length(model_results) + 1]] <- data.frame(
+        Stream = combinations$stream[i],
+        Daytime = combinations$daytime[i],
+        Date = combinations$date[i],
+        Slope = coef_table["diff_h", "Estimate"],
+        Intercept = coef_table["(Intercept)", "Estimate"],
+        Slope_Std_Error = coef_table["diff_h", "Std. Error"],
+        Intercept_Std_Error = coef_table["(Intercept)", "Std. Error"],
+        R_Squared = summary_model$r.squared,
+        Adjusted_R_Squared = summary_model$adj.r.squared,
+        F_Statistic = summary_model$fstatistic[1],
+        P_Value = coef_table["diff_h", "Pr(>|t|)"],
+        Residual_Std_Error = summary_model$sigma
+      )
+    } else {
+      skipped[[length(skipped) + 1]] <- combinations[i, ]
+    }
+  }
+  
+  result_df <- bind_rows(model_results)
+  skipped_df <- bind_rows(skipped)
+  
+  list(models = result_df, skipped = skipped_df)
+}
+
+# ---- Run the Function ----
+output <- create_linear_models(df)
+modelos<- output$models
+
+# ---- Save Results ----
+write.csv(output$models, "./results/Ca_Stock_Slope_by_StreamDate.csv", row.names = FALSE)
+write.csv(output$skipped, "./results/Ca_Stock_Slope_Skipped_Groups.csv", row.names = FALSE)
+
+# ---- View Summary ----
+cat("Total models fitted: ", nrow(output$models), "\n")
+cat("Groups skipped (insufficient data): ", nrow(output$skipped), "\n")
+# ---- Save Results ----
+write.csv(output$models, "./results/Ca_Stock_Slope_by_StreamDate.csv", row.names = FALSE)
+write.csv(output$skipped, "./results/Ca_Stock_Slope_Skipped_Groups.csv", row.names = FALSE)
+
+# ---- View Summary ----
+cat("Total models fitted: ", nrow(output$models), "\n")
+cat("Groups skipped (insufficient data): ", nrow(output$skipped), "\n")
