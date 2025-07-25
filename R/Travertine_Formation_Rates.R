@@ -6,7 +6,7 @@
 
 # ---- Load Required Libraries ----
 library(dplyr) 
-
+library(writexl)
 # ---- Load Data ----
 df <- read.csv("./data/Ca_Stock_Variation_LinearSegments.csv", sep = ",", header = TRUE)
 
@@ -47,4 +47,4 @@ travertine_formation_rates.df <-create_linear_models(df)
 View(travertine_formation_rates.df)
 
 # ---- Save Results ----
-write.csv(travertine_formation_rates.df, "./results/TableS3.csv", row.names = FALSE)
+write.xlsx(travertine_formation_rates.df, "./results/TableS3.xlsx")
