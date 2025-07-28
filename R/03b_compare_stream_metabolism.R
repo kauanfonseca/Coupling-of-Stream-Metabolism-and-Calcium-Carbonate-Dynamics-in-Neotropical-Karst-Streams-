@@ -1,9 +1,8 @@
-# ===============================
+# =================================================================================
 # Stream Metabolism Mixed-Effects Models
-# Author: Kauan Fonseca
 # Description: Fits LMMs to compare GPP, ER, NEP, and P:R between deposition types,
 #              applies appropriate transformations, and includes model diagnostics
-# ===============================
+# =================================================================================
 
 # ---- Load Required Packages ----
 library(dplyr)
@@ -11,6 +10,7 @@ library(ggplot2)
 library(lmerTest)
 library(performance)
 library(openxlsx)
+library(gridExtra)
 
 # ---- Load and Clean Data ----
 df <- read.csv("./data/metabolism_data.csv")
@@ -91,7 +91,7 @@ write.xlsx(combined_results,
            file = "./results/StreamMetabolism_LinearMixedEffect_output.xlsx",
            rowNames = FALSE)
 
-message("✅ Fixed effects exported to: ./results/StreamMetabolism_LinearMixedEffect_output.xlsx")
+message("Fixed effects exported to: ./results/StreamMetabolism_LinearMixedEffect_output.xlsx")
 
 # ---- Plotting Functions ----
 plot_metab_box <- function(data, y_var, y_lab, title_label, y_scale = "log10", limits = NULL, breaks = waiver()) {
@@ -140,7 +140,9 @@ pr_plot <- ggplot(df, aes(x = deposition, y = pr_mean, color = deposition, fill 
 # ---- Combine and Save Plots ----
 combined_metab_plot <- grid.arrange(gpp_plot, er_plot, nep_plot, pr_plot, ncol = 2)
 
+combined_metab_plot
+
 ggsave("./figs/FigureS3.tiff", plot = combined_metab_plot,
        width = 10.5, height = 10.5, dpi = 300)
 
-message("✔ All models run, diagnostics shown, and plots saved.")
+message("All models run, diagnostics shown, and plots saved.")

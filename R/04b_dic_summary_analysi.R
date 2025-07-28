@@ -5,10 +5,10 @@
 # ==============================================================================
 
 # ---- Load Packages ----
-library(lme4)         # For mixed-effects models
-library(lmerTest)     # For p-values in lmer
-library(performance)  # For model diagnostics
-library(car)          # For Levene's Test
+library(lme4)         
+library(lmerTest)    
+library(performance)  
+library(car)          
 
 # ---- Load and Clean Data ----
 Alk_df <- read.csv("./data/Alkalinity.csv", sep = ",", header = TRUE)
