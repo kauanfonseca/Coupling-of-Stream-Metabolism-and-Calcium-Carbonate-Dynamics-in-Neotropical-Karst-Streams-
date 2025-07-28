@@ -25,10 +25,10 @@ The scripts are organized to reflect the structure of the manuscript, progressin
 ### 4. Travertine Formation Proxies and Rates
 
 -   `R/04a_alkalinity_calcium_coupling.R`: Analyzes the coupling between alkalinity and calcium as indicators of carbonate precipitation.
--   `R/04b_dic_summary_analysis.R`: Summarizes patterns in dissolved inorganic carbon (DIC) across sites and time.
+-   `R/04b_dic_summary_analysis.R`: Summarizes patterns in dissolved inorganic carbon (DIC) across sites.
 -   `R/04d_travertine_rate_model.R`: Calculates travertine formation rates by modeling changes in calcium stocks over time.
 -   `R/04e_geochemical_lmer_models.R`: Applies linear mixed-effects models to evaluate the influence of deposition on SI~Calcite~, pCO~2~, and Ca^2+^ mass transfer.
--   `R/04c_coupled_c_org_c_inorg_production.R`: Final integrative analysis linking organic and inorganic carbon dynamics to travertine formation.
+-   `R/04c_coupled_c_org_c_inorg_production.R`: Final integrative analysis linking organic (stream metabolism) and inorganic carbon dynamics (travertine formation).
 
 ## R Packages Used
 
@@ -90,27 +90,23 @@ source("R/03b_compare_stream_metabolism.R")
 source("R/03c_scale_metabolism.R")
 source("R/04a_alkalinity_calcium_coupling.R")
 source("R/04b_dic_summary_analysis.R")
+source("R/04c_geochemical_lmer_models.R")
 source("R/04d_travertine_rate_model.R")
-source("R/04e_geochemical_lmer_models.R")
-source("R/04c_coupled_c_org_c_inorg_production.R")  # Final step
+source("R/04e_coupled_c_org_c_inorg_production.R")  
 ```
 
 ## Data Availability
 
-All clean datasets and metadata used in this project are publicly available via the Mendeley Data Repository at:
+The raw and metadata used in this project are publicly available via the Zenodo Repository at:
 
-DOI: <https://doi.org/10.17632/xmn2xpyzd6.1>
+DOI:
 
 ## Project Structure
-
-├── data/ \# Raw and processed data (or linked externally)
-
-├── figs/ \# Figures generated from analysis
-
-├── results/ \# Analysis outputs (tables, model results, etc.)
-
-├── scripts/ \# Additional R scripts or functions (optional)
-
-├── README.Rmd \# This README file
-
-└── LICENSE \# Project license
+project/
+├── data/         # Raw, unaltered input data (ideally read-only)
+├── incremental/  # Intermediate or processed datasets
+├── figs/         # Figures generated from the analysis
+├── results/      # Tables, model outputs, etc.
+├── R/            # Core or auxiliary R scripts/functions
+├── README.Rmd    # Detailed overview (render to README.md for GitHub)
+└── LICENSE       # License file 
