@@ -102,11 +102,13 @@ The raw and metadata used in this project are publicly available via the Zenodo 
 DOI:
 
 ## Project Structure
+```
 project/
-├── data/         # Raw, unaltered input data (ideally read-only)
-├── incremental/  # Intermediate or processed datasets
-├── figs/         # Figures generated from the analysis
-├── results/      # Tables, model outputs, etc.
-├── R/            # Core or auxiliary R scripts/functions
-├── README.Rmd    # Detailed overview (render to README.md for GitHub)
-└── LICENSE       # License file 
+├── data/           # Raw, unaltered input data (ideally read-only)
+├── incremental/    # Intermediate or processed datasets
+├── figs/           # Figures generated from the analysis
+├── results/        # Tables, model outputs, etc.
+├── R/              # Core or auxiliary R scripts/functions
+├── README.Rmd      # Detailed overview (render to README.md for GitHub)
+└── LICENSE         # License file
+```
