@@ -14,7 +14,7 @@ library(openxlsx)
 library(performance)
 
 # ---- Load Data ----
-ProbeData <- read.csv("./data/ProbeData_DiscreteSampling.csv")
+ProbeData <- read.csv("./data/probe_data_discrete_sampling.csv")
 
 # ---- Define Model Function with check_model() ----
 run_lmer_model <- function(response_var, df, log_transform = FALSE) {

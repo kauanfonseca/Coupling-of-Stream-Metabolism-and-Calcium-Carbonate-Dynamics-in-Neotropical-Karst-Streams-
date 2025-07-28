@@ -13,7 +13,7 @@ library(BASEmetab)
 library(ggplot2)
 
 # ---- Load High-Frequency Data ----
-HighFrequencyData <- read.csv("./data/HighFrequencyData.csv")
+HighFrequencyData <- read.csv("./data/high_frequency_data.csv")
 
 # ---- Parse Datetime Column ----
 HighFrequencyData$sampling_datetime <- as.POSIXct(

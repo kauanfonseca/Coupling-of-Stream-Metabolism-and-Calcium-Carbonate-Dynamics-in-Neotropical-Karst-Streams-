@@ -9,7 +9,7 @@ library(lmerTest)
 library(performance)
 
 # ---- Load Data ----
-hydro_df <- read.csv("./data/HydraulicData.csv")
+hydro_df <- read.csv("./data/hydraulic_data.csv")
 
 # ---- Fit Linear Mixed-Effects Models ----
 vel_model <- lmer(log10(Water_velocity_ms) ~ Deposition + (1 | Stream), data = hydro_df)

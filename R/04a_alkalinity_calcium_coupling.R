@@ -8,7 +8,7 @@
 library(car)  # For diagnostics if needed later
 
 # ---- Load Data ----
-df <- read.csv("./data/Alkalinity_Calcium_Coupling.csv", sep = ",", header = TRUE)
+df <- read.csv("./data/alkalinity_calcium_coupling.csv", sep = ",", header = TRUE)
 
 # ---- Fit Linear Model: Alkalinity (CaCO₃) ~ Calcium ----
 model <- lm(alkalinity_calcium.carbonate_mol_L ~ calcium_mol_L + 0, data = df)

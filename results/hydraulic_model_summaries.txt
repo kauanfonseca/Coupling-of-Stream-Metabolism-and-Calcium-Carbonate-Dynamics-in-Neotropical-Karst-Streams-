@@ -1,6 +1,7 @@
 === Water Velocity Model ===
 
-Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
 Formula: log10(Water_velocity_ms) ~ Deposition + (1 | Stream)
    Data: hydro_df
 
@@ -30,7 +31,8 @@ DpstnNn_ctv -0.647
 
 === Discharge Model ===
 
-Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
 Formula: log10(Discharge_Ls) ~ Deposition + (1 | Stream)
    Data: hydro_df
 
@@ -60,7 +62,8 @@ DpstnNn_ctv -0.654
 
 === Stream Depth Model ===
 
-Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
 Formula: log10(Stream_depth_m) ~ Deposition + (1 | Stream)
    Data: hydro_df
 

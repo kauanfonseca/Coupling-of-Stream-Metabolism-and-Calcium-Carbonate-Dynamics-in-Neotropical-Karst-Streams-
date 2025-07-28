@@ -11,7 +11,7 @@ library(performance)
 library(car)          
 
 # ---- Load and Clean Data ----
-Alk_df <- read.csv("./data/Alkalinity.csv", sep = ",", header = TRUE)
+Alk_df <- read.csv("./data/alkalinity.csv", sep = ",", header = TRUE)
 
 # Remove known outlier (RA, 2023-08-04)
 Alk_clean <- Alk_df[-4, ]

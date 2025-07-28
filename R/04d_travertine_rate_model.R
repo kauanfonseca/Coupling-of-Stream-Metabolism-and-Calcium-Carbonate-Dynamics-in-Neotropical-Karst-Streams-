@@ -8,7 +8,7 @@
 library(dplyr) 
 library(writexl)
 # ---- Load Data ----
-df <- read.csv("./data/Ca_Stock_Variation_LinearSegments.csv", sep = ",", header = TRUE)
+df <- read.csv("./data/calcium_stock_variation_linear_segments.csv", sep = ",", header = TRUE)
 
 #---- Linear Regression Function ----
 create_linear_models <- function(df) {

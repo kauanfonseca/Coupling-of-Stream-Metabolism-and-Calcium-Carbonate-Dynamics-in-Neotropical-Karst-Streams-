@@ -10,7 +10,7 @@ library(cowplot)
 library(openxlsx)
 
 # ---- Load Data ----
-Ca_SpC_df <- read.csv("./data/Calcium_SpConduc_Data.csv")
+Ca_SpC_df <- read.csv("./data/calcium_specific_conductivity_data.csv")
 
 # ---- Fit Linear Model ----
 Ca_SpC_model <- lm(calcium_concentration_mg_L ~ specific_conductivity_uS_cm, data = Ca_SpC_df)

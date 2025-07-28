@@ -9,7 +9,7 @@ library(cowplot)
 library(patchwork)
 
 # ---- Load Data ----
-df <- read.csv("./data/HighFrequencyData.csv", sep = ",", header = TRUE)
+df <- read.csv("./data/high_frequency_data.csv", sep = ",", header = TRUE)
 
 # ---- Fix Encoding in Stream Names ----
 df <- df %>%

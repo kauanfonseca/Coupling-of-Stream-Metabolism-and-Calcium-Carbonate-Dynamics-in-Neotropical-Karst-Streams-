@@ -13,8 +13,8 @@ library(performance)
 library(cowplot)
 
 # ---- Load Data ----
-Geochemical_df <- read.csv("./data/GeochemicalData.csv")
-CaMass_df      <- read.csv("./data/CalciumMassTransferReactions.csv")
+Geochemical_df <- read.csv("./data/geochemical_data.csv")
+CaMass_df      <- read.csv("./data/calcium_mass_transfer_reactions.csv")
 
 # ---- Define Model Runner Function with Diagnostics ----
 run_lmer_model <- function(response_var, df, asinh_transform = TRUE, log_transform = FALSE) {
