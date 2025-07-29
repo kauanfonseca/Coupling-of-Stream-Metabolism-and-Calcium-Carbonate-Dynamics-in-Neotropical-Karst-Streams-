@@ -11,7 +11,7 @@ message: >-
 type: dataset
 authors:
   - given-names: Kauan Nunes
-    name-particle: Kauan
+    name-particle: Fonseca
     family-names: Fonseca
     email: n.kauan@gmail.com
     affiliation: Universidade do Estado do Rio de Janeiro
