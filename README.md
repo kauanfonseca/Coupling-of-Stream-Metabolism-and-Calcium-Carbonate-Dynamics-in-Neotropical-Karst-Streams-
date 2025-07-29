@@ -95,15 +95,59 @@ source("R/04d_travertine_rate_model.R")
 source("R/04e_coupled_c_org_c_inorg_production.R")  
 ```
 
+## License
+
+The code and scripts in this repository are licensed under the [MIT License](LICENSE).
+
+The data files are not included in this repository and are available via Zenodo under a separate license (see below).
+
 ## Data Availability
 
-The raw and metadata used in this project are publicly available via the Zenodo Repository at:
+he data is licensed under a **[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)** license.
 
-DOI:
+The data required to run the analyses in this project is **not included in this GitHub repository** due to access restrictions. However, it is archived in a **private Zenodo repository**.
+
+### How to Access the Data
+
+- Request access to the dataset at: [Zenodo Private Link](https://zenodo.org/record/XXXXXX)  
+  *(replace with your actual link)*  
+- Once approved, download the full dataset (includes both `.csv` and `.xlsx` files).
+- Place all downloaded files into the project's `data/` directory.
+
+> The `.csv` files are used directly in the analysis scripts. The corresponding `.xlsx` files contain the same data along with structured metadata (e.g., units, variable descriptions, sources), and are provided for documentation and transparency.
+
+Your `data/` folder should contain the following files:
+
+```         
+project/
+└── data/
+├── stream_metabolism_travertine_formation.csv
+├── stream_metabolism_travertine_formation.xlsx
+├── probe_data_discrete_sampling.csv
+├── probe_data_discrete_sampling.xlsx
+├── metabolism_data.csv
+├── metabolism_data.xlsx
+├── hydraulic_data.csv
+├── hydraulic_data.xlsx
+├── high_frequency_data.csv
+├── high_frequency_data.xlsx
+├── geochemical_data.csv
+├── geochemical_data.xlsx
+├── calcium_stock_variation_linear_segments.csv
+├── calcium_stock_variation_linear_segments.xlsx
+├── calcium_specific_conductivity_data.csv
+├── calcium_specific_conductivity_data.xlsx
+├── calcium_mass_transfer_reactions.csv
+├── calcium_mass_transfers_reactions.xlsx
+├── alkalinity.csv
+├── alkalinity.xlsx
+├── alkalinity_calcium_coupling.csv
+└── alkalinity_calcium_coupling.xlsx
+```
 
 ## Project Structure
 
-```
+```         
 project/
 ├── data/           # Raw, unaltered input data (ideally read-only)
 ├── incremental/    # Intermediate or processed datasets
