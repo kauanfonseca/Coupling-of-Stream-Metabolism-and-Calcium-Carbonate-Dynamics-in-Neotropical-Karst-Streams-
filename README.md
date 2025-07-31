@@ -103,9 +103,15 @@ The data files are not included in this repository and are available via Zenodo 
 
 ## Data Availability
 
-he data is licensed under a **[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)** license.
+The data is licensed under a **[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)** license.
 
 The data required to run the analyses in this project is **not included in this GitHub repository** due to access restrictions. However, it is archived in a **private Zenodo repository**.
+
+Access to the dataset is granted only for **peer review purposes** via a private Zenodo link. Reviewers will receive this link directly through the journal’s submission system.
+
+If you are not a reviewer but wish to access the dataset (e.g., for research replication or academic use), please contact the author directly at **[n.kauan@gmail.com]** to request access.
+
+Access requests will be evaluated on a case-by-case basis to ensure responsible and appropriate use of the dataset. Upon approval, a private access link will be provided.
 
 ### How to Access the Data
 
@@ -144,16 +150,26 @@ project/
 ├── alkalinity_calcium_coupling.csv
 └── alkalinity_calcium_coupling.xlsx
 ```
+## Citation
+
+If you use the code or data from this repository in your research, please cite it appropriately.
+
+This repository includes a [`CITATION.cff`](CITATION.cff) file with full citation metadata. You can use it to generate citations in BibTeX, APA, or other formats using GitHub’s **“Cite this repository”** button.
+
+For convenience, you may cite this repository as:
+
+> Fonseca, K. N., Corman, J. R., dos Santos, R. C. L., Neres-Lima, V., Thomas, S. A., Moulton, T. P., & Zandonà, E. (2025). *Coupling of Stream Metabolism and Calcium Carbonate Dynamics in Neotropical Karst Streams* [Dataset and analysis scripts]. GitHub. https://github.com/kauanfonseca/Coupling-of-Stream-Metabolism-and-Calcium-Carbonate-Dynamics-in-Neotropical-Karst-Streams-
 
 ## Project Structure
 
 ```         
 project/
-├── data/           # Raw, unaltered input data (ideally read-only)
+├── data/           # Raw, unaltered input data (not included; download from Zenodo)
 ├── incremental/    # Intermediate or processed datasets
 ├── figs/           # Figures generated from the analysis
 ├── results/        # Tables, model outputs, etc.
 ├── R/              # Core or auxiliary R scripts/functions
-├── README.Rmd      # Detailed overview (render to README.md for GitHub)
-└── LICENSE         # License file
+├── README.Rmd      # Detailed project description (compiled to README.md)
+├── LICENSE         # MIT license for code reuse
+└── CITATION.cff    # Citation file for properly citing this repository
 ```
