@@ -1,8 +1,3 @@
----
-title: "Data Folder README"
-output: github_document
----
-
 # `data/` Directory
 
 This folder is intentionally left empty in the GitHub repository.
