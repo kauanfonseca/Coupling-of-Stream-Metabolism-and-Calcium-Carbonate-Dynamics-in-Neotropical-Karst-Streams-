@@ -103,9 +103,12 @@ The data files are not included in this repository and are available via Zenodo 
 
 ## Data Availability
 
-The data is licensed under a **[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)** license.
+The data are licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.
 
-The data required to run the analyses in this project is **not included in this GitHub repository** due to access restrictions. However, it is archived in a **private Zenodo repository**.
+The data required to run the analyses in this project are not included in this GitHub repository due to access restrictions. However, the dataset is archived and preserved in a private Zenodo repository under the DOI:
+
+Zenodo record (private): https://doi.org/10.5281/zenodo.16584698
+(Note: The DOI exists but is not publicly accessible until publication.)
 
 Access to the dataset is granted only for **peer review purposes** via a private Zenodo link. Reviewers will receive this link directly through the journal’s submission system.
 
