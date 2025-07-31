@@ -1,4 +1,13 @@
+# R and RStudio session/user files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# macOS system file
+.DS_Store
+
+# Optional: temporary/backup files often created by editors
+*.swp
+*.tmp
+*~
