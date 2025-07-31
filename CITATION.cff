@@ -1,33 +1,83 @@
-# This CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to generate yours today!
-
 cff-version: 1.2.0
-title: >-
-  Script from: Coupling of Stream Metabolism and Calcium
-  Carbonate Dynamics in Neotropical Karst Streams
 message: >-
-  If you use this dataset, please cite it using the metadata
-  from this file.
+  If you use this dataset or scripts, please cite it using the metadata from this file.
+title: >-
+  Script from: Coupling of Stream Metabolism and Calcium Carbonate Dynamics in Neotropical Karst Streams
 type: dataset
+
 authors:
   - given-names: Kauan Nunes
     family-names: Fonseca
     email: n.kauan@gmail.com
     affiliation: Universidade do Estado do Rio de Janeiro
-    orcid: 'https://orcid.org/0000-0003-4728-4883'
-repository-code: >-
-  https://github.com/kauanfonseca/Coupling-of-Stream-Metabolism-and-Calcium-Carbonate-Dynamics-in-Neotropical-Karst-Streams-.git
+    orcid: https://orcid.org/0000-0003-4728-4883
+
+  - given-names: Jessica R.
+    family-names: Corman
+    affiliation: University of Nebraska-Lincoln, School of Natural Resources
+    orcid: https://orcid.org/0000-0002-2633-8080
+
+  - given-names: Rogerio C. L.
+    family-names: dos Santos
+    affiliation: Instituto Nacional de Pesquisa do Pantanal, Universidade Federal de Mato Grosso
+    orcid: https://orcid.org/0000-0002-5772-8188
+
+  - given-names: Vinicius
+    family-names: Neres-Lima
+    affiliation: Universidade do Estado do Rio de Janeiro
+    orcid: https://orcid.org/0000-0003-3802-3438
+
+  - given-names: Steven A.
+    family-names: Thomas
+    affiliation: University of Alabama, Department of Biological Sciences
+    orcid: https://orcid.org/0000-0002-5249-3500
+
+  - given-names: Timothy P.
+    family-names: Moulton
+    affiliation: Universidade do Estado do Rio de Janeiro
+    orcid: https://orcid.org/0000-0001-8223-2582
+
+  - given-names: Eugenia
+    family-names: Zandonà
+    affiliation: Universidade do Estado do Rio de Janeiro
+    orcid: https://orcid.org/0000-0003-4754-5326
+
 abstract: >+
-  Full reproducible workflow for the manuscript: “Coupling
-  of Stream Metabolism and Calcium Carbonate Dynamics in
-  Neotropical Karst Streams”.
+  Full reproducible workflow for the manuscript: “Coupling of Stream Metabolism and Calcium Carbonate Dynamics in Neotropical Karst Streams”.
 
 keywords:
   - Ecosystem ecology
   - Biogeochemistry
-  - Freshwater ecology
-  - Stream ecology
+  - Stream metabolism
   - Travertine
+  - Karst systems
+
+repository-code: >-
+  https://github.com/kauanfonseca/Coupling-of-Stream-Metabolism-and-Calcium-Carbonate-Dynamics-in-Neotropical-Karst-Streams-.git
+
 license: CC-BY-4.0
 version: v1.0
 date-released: '2023-07-29'
+
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Fonseca
+      given-names: Kauan N.
+    - family-names: Corman
+      given-names: Jessica R.
+    - family-names: dos Santos
+      given-names: Rogerio C. L.
+    - family-names: Neres-Lima
+      given-names: Vinicius
+    - family-names: Thomas
+      given-names: Steven A.
+    - family-names: Moulton
+      given-names: Timothy P.
+    - family-names: Zandonà
+      given-names: Eugenia
+  title: Coupling of Stream Metabolism and Calcium Carbonate Dynamics in Neotropical Karst Streams
+  journal: [To be completed upon publication]
+  year: 2025
+  note: Manuscript submitted
+  url: https://github.com/kauanfonseca/Coupling-of-Stream-Metabolism-and-Calcium-Carbonate-Dynamics-in-Neotropical-Karst-Streams-
