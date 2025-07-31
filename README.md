@@ -115,8 +115,7 @@ Access requests will be evaluated on a case-by-case basis to ensure responsible 
 
 ### How to Access the Data
 
-- Request access to the dataset at: [Zenodo Private Link](https://zenodo.org/record/XXXXXX)  
-  *(replace with your actual link)*  
+- Request access to the dataset 
 - Once approved, download the full dataset (includes both `.csv` and `.xlsx` files).
 - Place all downloaded files into the project's `data/` directory.
 
